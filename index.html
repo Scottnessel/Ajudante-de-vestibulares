@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajudante de Vestibulares</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --navy-card: #162d4d;
+    --blue: #1a6bbd;
+    --blue-light: #3b9aff;
+    --sky: #b0d8ff;
+    --white: #f5f9ff;
+    --black: #060d1a;
+    --accent: #4fc3f7;
+    --border: #1e3a5f;
+    --muted: #6ea8d9;
+    --success: #34d399;
+    --warn: #fbbf24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--accent) 100%);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .logo-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -.02em;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  nav { display: flex; gap: 1.5rem; align-items: center; }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 500;
+    transition: color .2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(180deg, var(--black) 0%, var(--navy) 100%);
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(59,154,255,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: rgba(79,195,247,.1);
+    border: 1px solid rgba(79,195,247,.25);
+    border-radius: 99px;
+    padding: .35rem 1rem;
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(90deg, var(--blue-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 1rem 1.25rem 1rem 3.2rem;
+    background: var(--navy-card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    color: var(--white);
+    font-size: .95rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 3px rgba(59,154,255,.15);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+
+  /* ── SUGGESTIONS ── */
+  #suggestions {
+    max-width: 560px;
+    margin: .5rem auto 0;
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 1.1rem;
+    cursor: pointer;
+    transition: background .15s;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .suggestion-item:last-child { border-bottom: none; }
+  .suggestion-item:hover { background: rgba(59,154,255,.1); }
+
+  .suggestion-item .s-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--accent) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem;
+    flex-shrink: 0;
+  }
+
+  .s-name { font-size: .88rem; font-weight: 600; }
+  .s-sub  { font-size: .75rem; color: var(--muted); }
+
+  /* ── SECTION ── */
+  .section { padding: 3.5rem 2rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .pill-tag {
+    background: rgba(79,195,247,.12);
+    border: 1px solid rgba(79,195,247,.25);
+    color: var(--accent);
+    border-radius: 99px;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: .25rem .7rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  /* ── CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1.5rem;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+    display: none;
+  }
+
+  .card.visible { display: block; }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--accent) 100%);
+    border-radius: 18px 18px 0 0;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue-light);
+    box-shadow: 0 12px 40px rgba(26,107,189,.25);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .card-uni {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+
+  .uni-avatar {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    font-family: 'Sora', sans-serif;
+  }
+
+  .card h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .card .state-badge {
+    font-size: .7rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: rgba(110,168,217,.1);
+    border: 1px solid rgba(110,168,217,.2);
+    border-radius: 6px;
+    padding: .2rem .5rem;
+    margin-top: .25rem;
+    display: inline-block;
+  }
+
+  .card-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .3rem;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--warn);
+    box-shadow: 0 0 6px var(--warn);
+  }
+
+  .status-dot.open { background: var(--success); box-shadow: 0 0 6px var(--success); }
+
+  .status-label {
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  /* ── COUNTDOWN ── */
+  .countdown-box {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: .75rem 0 1rem;
+    text-align: center;
+  }
+
+  .countdown-label {
+    font-size: .7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: .4rem;
+  }
+
+  .countdown-digits {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+  }
+
+  .cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .1rem;
+  }
+
+  .cd-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .cd-sub {
+    font-size: .6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .cd-sep {
+    font-size: 1.3rem;
+    color: var(--border);
+    padding-top: .05rem;
+    font-weight: 700;
+  }
+
+  /* ── AREAS ── */
+  .areas {
+    margin-bottom: 1rem;
+  }
+
+  .areas-label {
+    font-size: .72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: .5rem;
+    font-weight: 600;
+  }
+
+  .area-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+  }
+
+  .chip {
+    background: rgba(26,107,189,.2);
+    border: 1px solid rgba(59,154,255,.25);
+    color: var(--sky);
+    border-radius: 8px;
+    font-size: .7rem;
+    font-weight: 500;
+    padding: .25rem .55rem;
+    white-space: nowrap;
+  }
+
+  /* ── CARD FOOTER ── */
+  .card-footer {
+    display: flex;
+    gap: .6rem;
+    margin-top: 1rem;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: .65rem .75rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: .8rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity .2s, transform .1s;
+    display: block;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .btn-primary:hover { opacity: .9; transform: scale(1.02); }
+
+  .btn-ghost {
+    padding: .65rem .75rem;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: color .2s, border-color .2s;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+  }
+
+  .btn-ghost:hover { color: var(--white); border-color: var(--muted); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: rgba(255,255,255,.08);
+    border: none;
+    border-radius: 8px;
+    color: var(--muted);
+    width: 32px; height: 32px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,.15); }
+
+  .modal h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+
+  .modal .sub { color: var(--muted); font-size: .88rem; margin-bottom: 1.5rem; }
+
+  .modal-section { margin-bottom: 1.4rem; }
+
+  .modal-section h4 {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: .65rem;
+  }
+
+  .course-list { display: flex; flex-direction: column; gap: .4rem; }
+
+  .course-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .65rem 1rem;
+  }
+
+  .course-item a {
+    color: var(--accent);
+    font-size: .8rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .course-item a:hover { text-decoration: underline; }
+
+  .course-name { font-size: .88rem; font-weight: 500; }
+  .course-area { font-size: .73rem; color: var(--muted); }
+
+  /* ── TIPS SECTION ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .tip-card {
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    display: flex;
+    gap: .9rem;
+    align-items: flex-start;
+  }
+
+  .tip-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+
+  .tip-card h4 {
+    font-size: .9rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+
+  .tip-card p {
+    font-size: .8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: .8rem;
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    display: none;
+    grid-column: 1 / -1;
+  }
+
+  .empty-state.visible { display: block; }
+  .empty-state .big { font-size: 2.5rem; margin-bottom: .75rem; }
+  .empty-state p { font-size: .9rem; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { display: none; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .section { padding: 2rem 1rem; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🎓</div>
+    <span class="logo-text">Ajudante de <span>Vestibulares</span></span>
+  </div>
+  <nav>
+    <a href="#sp">SP</a>
+    <a href="#outros">Outros estados</a>
+    <a href="#dicas">Dicas</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">🚀 Sua jornada começa aqui</div>
+  <h1>Ajudante de<br><span class="highlight">Vestibulares</span></h1>
+  <p>Acompanhe os prazos de inscrição, explore cursos e acesse direto o portal de cada vestibular — tudo em um só lugar.</p>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Busque por universidade ou estado... ex: UNICAMP, FUVEST, USP" autocomplete="off">
+  </div>
+  <div id="suggestions"></div>
+</section>
+
+<!-- SP VESTIBULARES -->
+<section class="section" id="sp">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-header">
+      <h2>São Paulo</h2>
+      <span class="pill-tag">Principais</span>
+    </div>
+    <div class="card-grid" id="grid-sp">
+      <!-- cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- OUTROS ESTADOS -->
+<section class="section" id="outros">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-header">
+      <h2>Outros estados</h2>
+      <span class="pill-tag">Brasil</span>
+    </div>
+    <div class="card-grid" id="grid-outros">
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DICAS -->
+<section class="section" id="dicas">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-header">
+      <h2>Dicas para se inscrever</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><span class="tip-icon">📅</span><div><h4>Fique atento aos prazos</h4><p>Os prazos costumam abrir em agosto–outubro. Configure alertas no celular.</p></div></div>
+      <div class="tip-card"><span class="tip-icon">📄</span><div><h4>Tenha seu RG e CPF em mãos</h4><p>A maioria dos portais exige documentos e foto 3×4 digital na hora do cadastro.</p></div></div>
+      <div class="tip-card"><span class="tip-icon">💳</span><div><h4>Pague a taxa no prazo</h4><p>Boleto vence dias antes do fim das inscrições. Não deixe para última hora.</p></div></div>
+      <div class="tip-card"><span class="tip-icon">✅</span><div><h4>Confirme a inscrição</h4><p>Após o pagamento, verifique se o status mudou para "confirmado" no portal.</p></div></div>
+      <div class="tip-card"><span class="tip-icon">🆓</span><div><h4>Isenção de taxa</h4><p>Candidate-se cedo — as isenções têm prazo próprio, geralmente antes das inscrições.</p></div></div>
+      <div class="tip-card"><span class="tip-icon">📬</span><div><h4>E-mail válido</h4><p>Use um e-mail que você acessa regularmente para receber comunicados.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Ajudante de Vestibulares — informações baseadas nos calendários oficiais 2025/2026.<br>
+  Sempre verifique os dados nos <a href="#">portais oficiais</a> das universidades.</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 id="modal-title"></h2>
+    <p class="sub" id="modal-sub"></p>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const vestibulares = [
+  {
+    id: "unicamp",
+    name: "UNICAMP",
+    full: "Universidade Estadual de Campinas",
+    emoji: "🔬",
+    color: "#1a4fd6",
+    state: "SP",
+    group: "sp",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-08-05T08:00:00"),
+    inscricaoFim: new Date("2025-09-05T23:59:00"),
+    provaDate: "19 e 20/01/2026",
+    inscricaoUrl: "https://www.comvest.unicamp.br",
+    areas: ["Exatas", "Biológicas", "Humanas", "Artes", "Tecnologia"],
+    cursos: [
+      { nome: "Engenharia de Computação", area: "Exatas", url: "https://www.dac.unicamp.br/portal/graduacao/cursos/engenharia-da-computacao" },
+      { nome: "Medicina", area: "Biológicas", url: "https://www.fcm.unicamp.br" },
+      { nome: "Economia", area: "Humanas", url: "https://www.eco.unicamp.br" },
+      { nome: "Matemática", area: "Exatas", url: "https://www.ime.unicamp.br" },
+      { nome: "Filosofia", area: "Humanas", url: "https://www.ifch.unicamp.br" },
+      { nome: "Letras", area: "Humanas", url: "https://www.iel.unicamp.br" },
+      { nome: "Arquitetura e Urbanismo", area: "Artes/Exatas", url: "https://www.fec.unicamp.br" },
+      { nome: "Física", area: "Exatas", url: "https://www.ifi.unicamp.br" },
+    ]
+  },
+  {
+    id: "fuvest",
+    name: "FUVEST / USP",
+    full: "Universidade de São Paulo",
+    emoji: "🏛️",
+    color: "#c8a200",
+    state: "SP",
+    group: "sp",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-09-01T08:00:00"),
+    inscricaoFim: new Date("2025-10-10T23:59:00"),
+    provaDate: "18/01/2026 (1ª fase)",
+    inscricaoUrl: "https://www.fuvest.br",
+    areas: ["Exatas", "Biológicas", "Humanas", "Artes", "Saúde"],
+    cursos: [
+      { nome: "Direito", area: "Humanas", url: "https://www.fd.usp.br" },
+      { nome: "Medicina", area: "Saúde", url: "https://www.fm.usp.br" },
+      { nome: "Engenharia Civil", area: "Exatas", url: "https://www.poli.usp.br" },
+      { nome: "Psicologia", area: "Humanas", url: "https://www.ip.usp.br" },
+      { nome: "Jornalismo", area: "Humanas", url: "https://www.eca.usp.br" },
+      { nome: "Ciências da Computação", area: "Exatas", url: "https://www.ime.usp.br" },
+      { nome: "Odontologia", area: "Saúde", url: "https://www.fo.usp.br" },
+    ]
+  },
+  {
+    id: "unesp",
+    name: "UNESP",
+    full: "Universidade Estadual Paulista",
+    emoji: "🌿",
+    color: "#2eab6a",
+    state: "SP",
+    group: "sp",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-08-20T08:00:00"),
+    inscricaoFim: new Date("2025-09-20T23:59:00"),
+    provaDate: "25/01/2026",
+    inscricaoUrl: "https://www.vunesp.com.br",
+    areas: ["Exatas", "Biológicas", "Humanas", "Tecnologia", "Saúde"],
+    cursos: [
+      { nome: "Agronomia", area: "Biológicas", url: "https://www.fca.unesp.br" },
+      { nome: "Administração", area: "Humanas", url: "https://www.franca.unesp.br" },
+      { nome: "Química", area: "Exatas", url: "https://www.iq.unesp.br" },
+      { nome: "Medicina Veterinária", area: "Saúde", url: "https://www.fmvz.unesp.br" },
+      { nome: "Pedagogia", area: "Humanas", url: "https://www.fc.unesp.br" },
+    ]
+  },
+  {
+    id: "enem",
+    name: "ENEM / SISU",
+    full: "Exame Nacional do Ensino Médio",
+    emoji: "🇧🇷",
+    color: "#1565c0",
+    state: "Nacional",
+    group: "sp",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-05-26T08:00:00"),
+    inscricaoFim: new Date("2025-06-06T23:59:00"),
+    provaDate: "09 e 10/11/2025",
+    inscricaoUrl: "https://enem.inep.gov.br",
+    areas: ["Todas as áreas"],
+    cursos: [
+      { nome: "Acessa universidades federais via SISU", area: "Todas", url: "https://sisu.mec.gov.br" },
+      { nome: "ProUni — bolsas em faculdades privadas", area: "Todas", url: "https://prouniportal.mec.gov.br" },
+      { nome: "FIES — financiamento estudantil", area: "Todas", url: "https://fiesselecao.mec.gov.br" },
+    ]
+  },
+  {
+    id: "pucsp",
+    name: "PUC-SP",
+    full: "Pontifícia Universidade Católica de SP",
+    emoji: "✝️",
+    color: "#7c3aed",
+    state: "SP",
+    group: "sp",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-07-10T08:00:00"),
+    inscricaoFim: new Date("2025-11-30T23:59:00"),
+    provaDate: "Processo contínuo (ENEM/vestibular próprio)",
+    inscricaoUrl: "https://www.pucsp.br/vestibular",
+    areas: ["Exatas", "Humanas", "Saúde", "Artes", "Tecnologia"],
+    cursos: [
+      { nome: "Direito", area: "Humanas", url: "https://www.pucsp.br/curso/graduacao/direito" },
+      { nome: "Engenharia de Software", area: "Tecnologia", url: "https://www.pucsp.br/curso/graduacao/engenharia-de-software" },
+      { nome: "Psicologia", area: "Humanas", url: "https://www.pucsp.br/curso/graduacao/psicologia" },
+      { nome: "Arquitetura", area: "Artes/Exatas", url: "https://www.pucsp.br/curso/graduacao/arquitetura-e-urbanismo" },
+    ]
+  },
+  {
+    id: "ufmg",
+    name: "UFMG",
+    full: "Universidade Federal de Minas Gerais",
+    emoji: "⛏️",
+    color: "#d97706",
+    state: "MG",
+    group: "outros",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-06-01T08:00:00"),
+    inscricaoFim: new Date("2025-06-10T23:59:00"),
+    provaDate: "Via ENEM/SISU + Paes UFMG",
+    inscricaoUrl: "https://www.ufmg.br/processo_seletivo",
+    areas: ["Exatas", "Biológicas", "Humanas", "Saúde", "Artes"],
+    cursos: [
+      { nome: "Engenharia Elétrica", area: "Exatas", url: "https://www.ufmg.br" },
+      { nome: "Medicina", area: "Saúde", url: "https://www.medicina.ufmg.br" },
+      { nome: "Ciências Sociais", area: "Humanas", url: "https://www.fafich.ufmg.br" },
+    ]
+  },
+  {
+    id: "ufrj",
+    name: "UFRJ",
+    full: "Universidade Federal do Rio de Janeiro",
+    emoji: "🏖️",
+    color: "#0891b2",
+    state: "RJ",
+    group: "outros",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-06-01T08:00:00"),
+    inscricaoFim: new Date("2025-06-10T23:59:00"),
+    provaDate: "Via ENEM/SISU + Vestibular UFRJ",
+    inscricaoUrl: "https://acessoufrj.ufrj.br",
+    areas: ["Exatas", "Biológicas", "Humanas", "Saúde", "Tecnologia"],
+    cursos: [
+      { nome: "Engenharia de Produção", area: "Exatas", url: "https://www.ufrj.br" },
+      { nome: "Administração", area: "Humanas", url: "https://www.facc.ufrj.br" },
+      { nome: "Física", area: "Exatas", url: "https://www.if.ufrj.br" },
+    ]
+  },
+  {
+    id: "ufpr",
+    name: "UFPR",
+    full: "Universidade Federal do Paraná",
+    emoji: "🌲",
+    color: "#15803d",
+    state: "PR",
+    group: "outros",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-06-01T08:00:00"),
+    inscricaoFim: new Date("2025-06-10T23:59:00"),
+    provaDate: "Via ENEM/SISU",
+    inscricaoUrl: "https://www.ufpr.br/portalufpr/ingresso-e-permanencia/cursos-de-graduacao",
+    areas: ["Exatas", "Biológicas", "Humanas", "Saúde", "Artes"],
+    cursos: [
+      { nome: "Medicina", area: "Saúde", url: "https://www.ufpr.br" },
+      { nome: "Direito", area: "Humanas", url: "https://www.direito.ufpr.br" },
+      { nome: "Engenharia Florestal", area: "Biológicas", url: "https://www.floresta.ufpr.br" },
+    ]
+  },
+  {
+    id: "ufba",
+    name: "UFBA",
+    full: "Universidade Federal da Bahia",
+    emoji: "🌴",
+    color: "#b45309",
+    state: "BA",
+    group: "outros",
+    inscricaoAberta: false,
+    inscricaoInicio: new Date("2025-06-01T08:00:00"),
+    inscricaoFim: new Date("2025-06-10T23:59:00"),
+    provaDate: "Via ENEM/SISU + UFBA Acesso",
+    inscricaoUrl: "https://acesso.ufba.br",
+    areas: ["Exatas", "Biológicas", "Humanas", "Saúde", "Artes"],
+    cursos: [
+      { nome: "Música", area: "Artes", url: "https://www.ufba.br" },
+      { nome: "Odontologia", area: "Saúde", url: "https://www.ufba.br" },
+      { nome: "Arquitetura", area: "Artes/Exatas", url: "https://www.ufba.br" },
+    ]
+  },
+];
+
+// ─── COUNTDOWN ──────────────────────────────────────────────────────────────
+function getCountdown(targetDate) {
+  const now = new Date();
+  const diff = targetDate - now;
+  if (diff <= 0) return null;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  return { d, h, m, s };
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function renderCard(v) {
+  const now = new Date();
+  const isOpen = now >= v.inscricaoInicio && now <= v.inscricaoFim;
+  const isPast = now > v.inscricaoFim;
+  const target = isOpen ? v.inscricaoFim : (isPast ? null : v.inscricaoInicio);
+  const cd = target ? getCountdown(target) : null;
+
+  const statusLabel = isPast ? "Encerrado" : (isOpen ? "Inscrições abertas" : "Aguardando abertura");
+  const dotClass = isOpen ? "status-dot open" : "status-dot";
+
+  const chips = v.areas.map(a => `<span class="chip">${a}</span>`).join('');
+
+  let countdownHtml = '';
+  if (cd) {
+    const cdLabel = isOpen ? "Inscrições encerram em" : "Inscrições abrem em";
+    countdownHtml = `
+      <div class="countdown-box">
+        <div class="countdown-label">${cdLabel}</div>
+        <div class="countdown-digits">
+          <div class="cd-unit"><span class="cd-num" data-id="${v.id}-d">${pad(cd.d)}</span><span class="cd-sub">dias</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" data-id="${v.id}-h">${pad(cd.h)}</span><span class="cd-sub">horas</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" data-id="${v.id}-m">${pad(cd.m)}</span><span class="cd-sub">min</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" data-id="${v.id}-s">${pad(cd.s)}</span><span class="cd-sub">seg</span></div>
+        </div>
+      </div>`;
+  } else if (isPast) {
+    countdownHtml = `<div class="countdown-box" style="opacity:.5"><div class="countdown-label">Inscrições encerradas</div><div style="font-size:.8rem;color:var(--muted);margin-top:.3rem">Aguarde o próximo ciclo</div></div>`;
+  }
+
+  return `
+    <div class="card visible" data-id="${v.id}" data-name="${v.name.toLowerCase()} ${v.full.toLowerCase()} ${v.state.toLowerCase()}">
+      <div class="card-head">
+        <div class="card-uni">
+          <div class="uni-avatar" style="background:linear-gradient(135deg,${v.color}44,${v.color}22);color:${v.color};border:1px solid ${v.color}33">
+            ${v.emoji}
+          </div>
+          <div>
+            <h3>${v.name}</h3>
+            <span class="state-badge">${v.state} · Prova: ${v.provaDate}</span>
+          </div>
+        </div>
+        <div class="card-status">
+          <div class="${dotClass}"></div>
+          <span class="status-label">${statusLabel}</span>
+        </div>
+      </div>
+      ${countdownHtml}
+      <div class="areas">
+        <div class="areas-label">Áreas disponíveis</div>
+        <div class="area-chips">${chips}</div>
+      </div>
+      <div class="card-footer">
+        <a href="${v.inscricaoUrl}" target="_blank" rel="noopener" class="btn-primary">🔗 Ir para inscrição</a>
+        <button class="btn-ghost" onclick="openModal('${v.id}')">Ver cursos</button>
+      </div>
+    </div>`;
+}
+
+function renderAll() {
+  const spGrid = document.getElementById('grid-sp');
+  const outrosGrid = document.getElementById('grid-outros');
+  spGrid.innerHTML = '';
+  outrosGrid.innerHTML = '';
+  vestibulares.forEach(v => {
+    const html = renderCard(v);
+    if (v.group === 'sp') spGrid.innerHTML += html;
+    else outrosGrid.innerHTML += html;
+  });
+}
+
+// ─── LIVE COUNTDOWN ─────────────────────────────────────────────────────────
+function tickCountdowns() {
+  vestibulares.forEach(v => {
+    const now = new Date();
+    const isOpen = now >= v.inscricaoInicio && now <= v.inscricaoFim;
+    const isPast = now > v.inscricaoFim;
+    const target = isOpen ? v.inscricaoFim : (isPast ? null : v.inscricaoInicio);
+    if (!target) return;
+    const cd = getCountdown(target);
+    if (!cd) return;
+    const d = document.querySelector(`[data-id="${v.id}-d"]`);
+    const h = document.querySelector(`[data-id="${v.id}-h"]`);
+    const m = document.querySelector(`[data-id="${v.id}-m"]`);
+    const s = document.querySelector(`[data-id="${v.id}-s"]`);
+    if (d) d.textContent = pad(cd.d);
+    if (h) h.textContent = pad(cd.h);
+    if (m) m.textContent = pad(cd.m);
+    if (s) s.textContent = pad(cd.s);
+  });
+}
+
+// ─── SEARCH ─────────────────────────────────────────────────────────────────
+const searchInput = document.getElementById('searchInput');
+const suggestionsBox = document.getElementById('suggestions');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  filterCards(q);
+  renderSuggestions(q);
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    suggestionsBox.style.display = 'none';
+    filterCards('');
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-wrap') && !e.target.closest('#suggestions')) {
+    suggestionsBox.style.display = 'none';
+  }
+});
+
+function filterCards(q) {
+  const cards = document.querySelectorAll('.card');
+  let anyVisible = false;
+  cards.forEach(card => {
+    const name = card.dataset.name || '';
+    const match = !q || name.includes(q);
+    card.classList.toggle('visible', match);
+    if (match) anyVisible = true;
+  });
+}
+
+function renderSuggestions(q) {
+  if (!q) { suggestionsBox.style.display = 'none'; return; }
+  const matches = vestibulares.filter(v =>
+    `${v.name} ${v.full} ${v.state}`.toLowerCase().includes(q)
+  );
+  if (!matches.length) { suggestionsBox.style.display = 'none'; return; }
+  suggestionsBox.innerHTML = matches.map(v => `
+    <div class="suggestion-item" onclick="selectSuggestion('${v.id}', '${v.name}')">
+      <div class="s-icon">${v.emoji}</div>
+      <div>
+        <div class="s-name">${v.name}</div>
+        <div class="s-sub">${v.full} · ${v.state}</div>
+      </div>
+    </div>
+  `).join('');
+  suggestionsBox.style.display = 'block';
+}
+
+function selectSuggestion(id, name) {
+  searchInput.value = name;
+  suggestionsBox.style.display = 'none';
+  filterCards(name.toLowerCase());
+  const card = document.querySelector(`[data-id="${id}"]`);
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ─── MODAL ──────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const v = vestibulares.find(x => x.id === id);
+  if (!v) return;
+  document.getElementById('modal-title').textContent = v.name + ' — ' + v.full;
+  document.getElementById('modal-sub').textContent = `Estado: ${v.state} · Prova: ${v.provaDate}`;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-section">
+      <h4>Cursos disponíveis</h4>
+      <div class="course-list">
+        ${v.cursos.map(c => `
+          <div class="course-item">
+            <div>
+              <div class="course-name">${c.nome}</div>
+              <div class="course-area">${c.area}</div>
+            </div>
+            <a href="${c.url}" target="_blank" rel="noopener">Ver curso →</a>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="modal-section">
+      <h4>Inscrição</h4>
+      <a href="${v.inscricaoUrl}" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;padding:.85rem">
+        🔗 Acessar portal de inscrição
+      </a>
+    </div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderAll();
+setInterval(tickCountdowns, 1000);
+</script>
+</body>
+</html>
